@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verben mit Präpositionen</title>
+<meta name="theme-color" content="#FF7A1A">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=Source+Sans+3:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="wrap">
+  <header class="top">
+    <div>
+      <p class="kicker">Goethe-Prüfung · A2 bis B2</p>
+      <h1>Verben mit Präpositionen</h1>
+    </div>
+    <div class="stats">
+      <div class="track" id="bar" role="progressbar" aria-label="Fortschritt" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0"><div class="fill" id="fill"></div></div>
+      <span id="prog">0 / 10 gelernt</span>
+      <span id="streak">Serie 0</span>
+    </div>
+  </header>
+
+  <section class="card" id="game">
+    <div class="tags" id="tags"></div>
+    <div class="verbrow">
+      <h2 class="verb" id="verb"></h2>
+      <button type="button" class="icon" id="say" aria-label="Verb anhören" title="Verb anhören">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+      </button>
+    </div>
+    <p class="en" id="en"></p>
+
+    <div id="ask">
+      <p class="label" id="lblPrep">Welche Präposition?</p>
+      <div class="chips" id="preps" role="group" aria-labelledby="lblPrep"></div>
+      <p class="label" id="lblCase">Welcher Fall?</p>
+      <div class="cases" id="cases" role="group" aria-labelledby="lblCase">
+        <button type="button" class="case" data-v="Akkusativ" aria-pressed="false"><span class="cn">Akkusativ</span><span class="cq">wen? was?</span></button>
+        <button type="button" class="case" data-v="Dativ" aria-pressed="false"><span class="cn">Dativ</span><span class="cq">wem?</span></button>
+      </div>
+      <div class="actions"><button type="button" class="btn" id="check" disabled>Prüfen</button></div>
+    </div>
+
+    <div class="result" id="result" hidden aria-live="polite">
+      <p class="verdict" id="verdict"></p>
+      <p class="detail" id="detail"></p>
+      <p class="merke"><span class="mlabel">Merke</span><strong id="merke"></strong></p>
+      <div class="sentrow">
+        <p class="sentence" id="sentence"></p>
+        <button type="button" class="icon" id="saySentence" aria-label="Satz anhören" title="Satz anhören">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+        </button>
+      </div>
+      <p class="tr" id="tr"></p>
+      <p class="legend"><span><mark>Verb</mark></span><span class="p">Präposition</span></p>
+      <div class="actions"><button type="button" class="btn" id="next">Weiter</button></div>
+    </div>
+  </section>
+
+  <section class="card" id="done" hidden>
+    <p class="label" style="margin-top:0">Runde fertig</p>
+    <p class="bigscore"><strong id="score"></strong><span>beim ersten Versuch richtig</span></p>
+    <div id="againBox" hidden>
+      <p class="label">Noch einmal ansehen</p>
+      <ul class="again" id="againList"></ul>
+    </div>
+    <div class="actions"><button type="button" class="btn" id="newRound2">Neue Runde</button></div>
+  </section>
+
+  <div class="controls">
+    <span id="lblSize">Karten pro Runde</span>
+    <div class="seg" role="group" aria-labelledby="lblSize" id="sizes">
+      <button type="button" data-n="10" aria-pressed="true">10</button>
+      <button type="button" data-n="20" aria-pressed="false">20</button>
+      <button type="button" data-n="all" aria-pressed="false">Alle</button>
+    </div>
+    <button type="button" class="btn ghost small" id="newRound">Neue Runde</button>
+    <button type="button" class="btn ghost small" id="soundBtn" aria-pressed="true">Ton an</button>
+  </div>
+
+  <details class="own" id="own">
+    <summary>Eigene Verben hinzufügen <span id="ownCount"></span></summary>
+    <p>One line per verb, parts separated by semicolons: <code>verb; preposition; case; example sentence; English meaning (optional); English translation (optional)</code>. Use <code>ab | hängen</code> for separable verbs and <code>sich freuen</code> for reflexive ones. Case can be Akkusativ or Dativ (Akk / Dat also works). The preposition is highlighted in the sentence automatically. Your cards stay in this browser.</p>
+    <textarea id="bulk" spellcheck="false" aria-label="Eigene Verben, eine Zeile pro Verb" placeholder="ab | hängen; von; Dativ; Wie gut man in einer Stadt lebt, hängt von vielen Faktoren ab.; to depend on; How well one lives in a city depends on many factors."></textarea>
+    <div class="row">
+      <button type="button" class="btn small" id="addBtn">Hinzufügen</button>
+      <button type="button" class="btn ghost small" id="clearBtn">Eigene Verben löschen</button>
+    </div>
+    <p class="status" id="status" role="status"></p>
+  </details>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
